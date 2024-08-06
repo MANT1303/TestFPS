@@ -4,7 +4,9 @@ using System.Collections.Generic;
 public class StateMachine
 {
     private IState _currentState;
-    private Dictionary<Type, IState> _states;
+    private Dictionary<Type, IState> _states = new Dictionary<Type, IState>();
+
+
     public void AddState(IState state)
     {
         _states.Add(state.GetType(), state);
