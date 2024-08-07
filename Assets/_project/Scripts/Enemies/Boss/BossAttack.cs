@@ -21,7 +21,7 @@ namespace Assets._project.Scripts.Enemies.Boss
         public void Attack()
         {
             _currentTime += Time.deltaTime;
-            transform.LookAt(_currentPlayer.transform,Vector3.up);
+            transform.LookAt(Vector3.Lerp(transform.position, _currentPlayer.transform.position,_currentTime),Vector3.up);
 
             if (_currentTime > _pauseBetweenAttack)
             {
@@ -37,7 +37,7 @@ namespace Assets._project.Scripts.Enemies.Boss
         public void SetTargetAttack(List<PlayerControl> players)
         {
             _players = players;
-            _currentPlayer = _players[0];
+            _currentPlayer = _players[Random.Range(0, _players.Count)];
         }
     }
 }

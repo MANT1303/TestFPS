@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using UnityEngine;
 
 namespace Assets._project.Scripts.Common
@@ -7,6 +7,8 @@ namespace Assets._project.Scripts.Common
     {
         public float Health { get; protected set; }
         public float MaxHealth { get; protected set; }
+
+        public abstract event Action Dead;
 
     }
 }

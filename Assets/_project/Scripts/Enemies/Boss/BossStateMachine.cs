@@ -10,7 +10,7 @@ namespace Assets._project.Scripts.Enemies
     {
         [SerializeField] private float _timeCreatingAndDeadBoss;
         [SerializeField] private BossAttack _bossAttack;
-        private List<PlayerControl> _controlsPlayers;
+        public List<PlayerControl> ControlPlayers { private get; set; }//?
         private StateMachine _fsm;
 
         private void OnValidate()
@@ -25,7 +25,7 @@ namespace Assets._project.Scripts.Enemies
         {
             _fsm = new StateMachine();
             _fsm.AddState(new CreateStateBoss(_fsm, transform,_timeCreatingAndDeadBoss));
-            _fsm.AddState(new ActiveStateBoss(_fsm, _bossAttack, _controlsPlayers));
+            _fsm.AddState(new ActiveStateBoss(_fsm, _bossAttack, ControlPlayers));
             _fsm.AddState(new DeadStateBoss(_fsm,transform,_timeCreatingAndDeadBoss));
 
             _fsm.SetState<CreateStateBoss>();
@@ -35,10 +35,6 @@ namespace Assets._project.Scripts.Enemies
             _fsm.Update();
         }
 
-        public void SetPlayers(List<PlayerControl> controlsPlayers)
-        {
-            _controlsPlayers = controlsPlayers;
-        }
     }
 
 }

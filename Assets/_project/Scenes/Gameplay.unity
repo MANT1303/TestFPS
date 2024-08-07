@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &199264590 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3044916434132713738, guid: 5de76fc27b8426d4494a79c95046b1b8, type: 3}
+  m_PrefabInstance: {fileID: 4481896359007313325}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9932b522adcfcb8468519d0657b6a5cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,6 +228,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 175.8, y: -55.73, z: 0}
+--- !u!114 &781842732 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7409598489526351639, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
+  m_PrefabInstance: {fileID: 1972063551542448530}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54101dde6ed5be041b6b0a1bf9977675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &947887418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 947887419}
+  - component: {fileID: 947887420}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &947887419
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947887418}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.16127713, y: 3.6326532, z: 2.2056324}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &947887420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947887418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c4d5d4511579a34993adcde38ba7aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _players:
+  - {fileID: 199264590}
+  _boss: {fileID: 781842732}
 --- !u!1 &1090834839
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,13 +479,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
-    - target: {fileID: 6547433954785752932, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 5909894600712652590, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6547433954785752932, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.549
+      objectReference: {fileID: 0}
+    - target: {fileID: 6547433954785752932, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325861003475366431, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
+      propertyPath: _bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325861003475366431, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
+      propertyPath: _bulletPrefab
+      value: 
+      objectReference: {fileID: -7024688503180665919, guid: e63335010311bc8448e421148d9bd4d1, type: 3}
+    - target: {fileID: 8325861003475366431, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
+      propertyPath: _shootLifeTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325861003475366431, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
+      propertyPath: _shootPerSecond
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -559,3 +648,4 @@ SceneRoots:
   - {fileID: 1972063551542448530}
   - {fileID: 3239967818066280009}
   - {fileID: 1090834840}
+  - {fileID: 947887419}
