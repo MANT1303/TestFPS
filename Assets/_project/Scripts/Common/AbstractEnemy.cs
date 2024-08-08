@@ -10,5 +10,7 @@ namespace Assets._project.Scripts.Common
 
         public abstract event Action Dead;
 
+        public abstract void Takedamage(float damage);
+
     }
 }

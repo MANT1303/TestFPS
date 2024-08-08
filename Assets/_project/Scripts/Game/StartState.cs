@@ -31,7 +31,7 @@ namespace Assets._project.Scripts.Game
 
         public void Update()
         {
-
+            StateMachine.SetState<BattleState>();
         }
     }
 }

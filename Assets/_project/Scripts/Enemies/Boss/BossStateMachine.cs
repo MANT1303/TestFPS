@@ -35,6 +35,10 @@ namespace Assets._project.Scripts.Enemies
             _fsm.Update();
         }
 
+        public void BossDead()
+        {
+            _fsm.SetState<DeadStateBoss>();
+        }
     }
 
 }

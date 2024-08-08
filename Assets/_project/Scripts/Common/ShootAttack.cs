@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets._project.Scripts.Common
@@ -9,8 +10,11 @@ namespace Assets._project.Scripts.Common
         [SerializeField] private float _shootPerSecond;
         [SerializeField] private float _shootLifeTime;
         [SerializeField] private float _bulletSpeed;
+        [SerializeField] private Transform _bulletPool;
         private BulletMove[] _bullets;
         private int _currentBullet;
+
+        public override event Action SuccessedAttack;
         public override void Attack(Vector3 direction)
         {
             BulletMove currentBullet = _bullets[_currentBullet];
@@ -23,17 +27,32 @@ namespace Assets._project.Scripts.Common
             {
                 _currentBullet = 0;
             }
-            //перетаскиваем пулю в начальную точку, посылаем пулю в заданном направлении
         }
         private void Start()
         {
-            _bullets = new BulletMove[Mathf.FloorToInt(_shootPerSecond*_shootLifeTime) +1];
-            for (int i = 0;  i < _bullets.Length; i++)
+            _bullets = new BulletMove[Mathf.FloorToInt(_shootPerSecond * _shootLifeTime) + 1];
+            for (int i = 0; i < _bullets.Length; i++)
             {
-                _bullets[i] = Instantiate(_bulletPrefab, transform);
+
+                _bullets[i] = Instantiate(_bulletPrefab, _bulletPool);
                 _bullets[i].gameObject.SetActive(false);
-                _bullets[i].SetSettings(_shootLifeTime,_bulletSpeed);
+                _bullets[i].SetSettings(_shootLifeTime, _bulletSpeed);
+                _bullets[i].CollisionEntered += AttackSuccess;
+
             }
+        }
+        private void AttackSuccess()
+        {
+            SuccessedAttack?.Invoke();
+        }
+
+        private void OnDisable()
+        {
+            foreach (var bullet in _bullets)
+            {
+                bullet.CollisionEntered -= AttackSuccess;
+            }
+
         }
     }
 }

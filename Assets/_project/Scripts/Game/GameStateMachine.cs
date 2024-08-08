@@ -1,8 +1,6 @@
-using Assets._project.Scripts.Enemies;
 using Assets._project.Scripts.Enemies.Boss;
 using Assets._project.Scripts.Game;
 using Assets._project.Scripts.Player;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,5 +24,19 @@ public class GameStateMachine : MonoBehaviour
         _fsm.AddState(new WinState(_fsm, _players));
 
         _fsm.SetState<StartState>();
+    }
+
+    private void OnEnable()
+    {
+        _boss.Dead += BossDead;
+    }
+
+    private void BossDead()
+    {
+        _fsm.SetState<WinState>();
+    }
+    private void Update()
+    {
+        _fsm.Update();
     }
 }
