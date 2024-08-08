@@ -1,10 +1,7 @@
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using WebSocketSharp;
 
@@ -22,34 +19,29 @@ public class LobbyPhoton : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI _connectedText;
     [Header("Settings")]
     [SerializeField] private int _maxPlayers;
+
     private void Start()
     {
-        _createRoomBtn.interactable = false;
-        _joinRoomBtn.interactable = false;
+        PhotonNetwork.Disconnect();
+        if(!PhotonNetwork.IsConnected)
+        {
+            _createRoomBtn.interactable = false;
+            _joinRoomBtn.interactable = false;
+        }
         PhotonNetwork.ConnectUsingSettings();
     }
-    public override void OnEnable()
-    {
-        _createRoomBtn.onClick.AddListener(CreateRoomButton);
-        _joinRoomBtn.onClick.AddListener(JoinRoomButton);
-    }
 
-    public override void OnDisable()
-    {
-        _createRoomBtn.onClick.RemoveAllListeners();
-        _joinRoomBtn.onClick.RemoveAllListeners();
-    }
     public void CreateRoomButton()
     {
         if (!PhotonNetwork.IsConnected)
         {
             Debug.LogError("Нет подключения!");
         }
-        if (_inputField.text != null)
+        if (!_inputField.text.IsNullOrEmpty())
         {
             RoomOptions roomOptions = new RoomOptions();
             roomOptions.MaxPlayers = _maxPlayers;
-            PhotonNetwork.CreateRoom(_inputField.text, roomOptions,TypedLobby.Default);
+            PhotonNetwork.CreateRoom(_inputField.text, roomOptions, TypedLobby.Default);
         }
     }
 
@@ -65,7 +57,17 @@ public class LobbyPhoton : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        _createRoomBtn.onClick.AddListener(CreateRoomButton);
 
+    }
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        _createRoomBtn.onClick.RemoveAllListeners();
+    }
     public void ReadyButton()
     {
 
@@ -78,7 +80,7 @@ public class LobbyPhoton : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log($"Connected to master {PhotonNetwork.IsMasterClient}");
+        Debug.Log($"Connected to master {PhotonNetwork.CloudRegion}");
         _createRoomBtn.interactable = true;
         _joinRoomBtn.interactable = true;
     }

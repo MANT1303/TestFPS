@@ -12,6 +12,6 @@ public class ToggleScene : MonoBehaviour
     }
     public void ToScene(int scene)
     {
-        PhotonNetwork.LoadLevel(scene);
+        SceneManager.LoadScene(scene);
     }
 }
