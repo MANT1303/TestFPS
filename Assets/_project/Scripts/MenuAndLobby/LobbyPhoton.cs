@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using WebSocketSharp;
 
-public class LobbyPhoton : MonoBehaviourPunCallbacks
+public class LobbyPhoton : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Header("Lobby")]
     [SerializeField] private GameObject _connectionRoomPanel;
@@ -20,6 +20,9 @@ public class LobbyPhoton : MonoBehaviourPunCallbacks
     [Header("Settings")]
     [SerializeField] private int _maxPlayers;
 
+    private bool _isReady;
+    private int _readyPlayers;
+    private PhotonView _photonView;
     private void Start()
     {
         PhotonNetwork.Disconnect();
@@ -29,6 +32,7 @@ public class LobbyPhoton : MonoBehaviourPunCallbacks
             _joinRoomBtn.interactable = false;
         }
         PhotonNetwork.ConnectUsingSettings();
+        _photonView = GetComponentInChildren<PhotonView>();
     }
 
     public void CreateRoomButton()
@@ -61,21 +65,36 @@ public class LobbyPhoton : MonoBehaviourPunCallbacks
     {
         base.OnEnable();
         _createRoomBtn.onClick.AddListener(CreateRoomButton);
+        _joinRoomBtn.onClick.AddListener(JoinRoomButton);
+        _readyBtn.onClick.AddListener(ReadyButton);
+        _startGameBtn.onClick.AddListener(StartGameButton);
 
     }
     public override void OnDisable()
     {
         base.OnDisable();
         _createRoomBtn.onClick.RemoveAllListeners();
+        _joinRoomBtn.onClick.RemoveAllListeners();
+        _readyBtn.onClick.RemoveAllListeners();
+        _startGameBtn.onClick.RemoveAllListeners();
     }
     public void ReadyButton()
     {
-
+        _isReady = !_isReady;
+        if (_isReady)
+        {
+            _readyPlayers++;
+        }
+        else
+        {
+            _readyPlayers--;
+        }
+        _photonView.RPC(nameof(SendData), RpcTarget.AllBuffered, _readyPlayers );
     }
 
     public void StartGameButton()
     {
-
+        _photonView.RPC(nameof(RunGame), RpcTarget.All);
     }
 
     public override void OnConnectedToMaster()
@@ -87,10 +106,39 @@ public class LobbyPhoton : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log($"Disconnected {cause}");
+        if (_isReady)
+        {
+            _readyPlayers--;
+        }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        ToRoom();
     }
     private void ToRoom()
     {
         _connectionRoomPanel.SetActive(false);
         _inRoomPanel.SetActive(true);
+    }
+    [PunRPC]
+    private void SendData(int readyPlayers)
+    {
+        _readyPlayers = readyPlayers;
+        _connectedText.text = $"Подключились {readyPlayers}/{_maxPlayers}";
+        if (_readyPlayers == _maxPlayers)
+        {
+            _startGameBtn.interactable = true;
+        }
+    }
+    [PunRPC]
+    private void RunGame()
+    {
+        PhotonNetwork.LoadLevel(2);
+    }
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+
     }
 }

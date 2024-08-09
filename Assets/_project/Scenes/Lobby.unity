@@ -156,7 +156,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1819432270}
-  m_Father: {fileID: 1256795769}
+  m_Father: {fileID: 1777647848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1372,7 +1372,6 @@ RectTransform:
   - {fileID: 1237811735}
   - {fileID: 322306332}
   - {fileID: 600127445}
-  - {fileID: 12273377}
   m_Father: {fileID: 1777647848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2044,6 +2043,7 @@ GameObject:
   - component: {fileID: 1777647850}
   - component: {fileID: 1777647849}
   - component: {fileID: 1777647852}
+  - component: {fileID: 1777647853}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2065,6 +2065,7 @@ RectTransform:
   m_Children:
   - {fileID: 1256795769}
   - {fileID: 1098494450}
+  - {fileID: 12273377}
   m_Father: {fileID: 1938359747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2156,6 +2157,28 @@ MonoBehaviour:
   _readyBtn: {fileID: 1539038364}
   _connectedText: {fileID: 1595754620}
   _maxPlayers: 2
+--- !u!114 &1777647853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777647847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1819432269
 GameObject:
   m_ObjectHideFlags: 0
@@ -2301,7 +2324,6 @@ GameObject:
   - component: {fileID: 1938359747}
   - component: {fileID: 1938359746}
   - component: {fileID: 1938359745}
-  - component: {fileID: 1938359748}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2384,18 +2406,6 @@ Transform:
   - {fileID: 1777647848}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1938359748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938359744}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a95e436c0fca1574dbcf7a0b0a99cbde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2028955726
 GameObject:
   m_ObjectHideFlags: 0

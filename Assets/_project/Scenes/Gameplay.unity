@@ -444,6 +444,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 853444590232204877, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2040903238864511426, guid: 148a5a9e003c4fb4ea57fb8d1a6167d0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -521,6 +525,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1689127290725433622, guid: 5de76fc27b8426d4494a79c95046b1b8, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1689127290725433622, guid: 5de76fc27b8426d4494a79c95046b1b8, type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 718994078110058474, guid: 5de76fc27b8426d4494a79c95046b1b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
