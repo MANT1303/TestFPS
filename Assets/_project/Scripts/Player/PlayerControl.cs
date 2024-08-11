@@ -1,11 +1,15 @@
 ﻿using Assets._project.Scripts.Common;
+using Photon.Pun;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Assets._project.Scripts.Player
 {
-    public class PlayerControl : MonoBehaviour
+    public class PlayerControl : MonoBehaviourPunCallbacks
     {
         [SerializeField] private InputManager _inputManager;
         [Header("Attack")]
@@ -16,26 +20,48 @@ namespace Assets._project.Scripts.Player
         [Header("Rotate")]
         [SerializeField] private Camera _camera;
         [SerializeField] private float _rotateSpeed;
+        [Header("UI")]
+        [SerializeField] private GameObject _gameplayUI;
+        [SerializeField] private TextMeshProUGUI _scoreText;
+        [SerializeField] private GameObject _winUI;
+        [SerializeField] private TextMeshProUGUI _winScoreText;
+        [SerializeField] private Button _leaveButton;
+
         private float _rotationX;
         private float _rotationY;
         private float _currentTime;
         private Vector3 _currentRotatiion;
         private Vector3 _moveDirection;
         private int _score;
-        private void OnEnable()
+
+        private void Awake()
         {
+            _winUI.SetActive(false);
+            if (!photonView.IsMine)
+            {
+                _camera.gameObject.SetActive(false);
+            }
+        }
+        public override void OnEnable()
+        {
+            base.OnEnable();
             _inputManager.Attacked += OnAttack;
             _inputManager.Moved += OnMove;
             _inputManager.Rotated += OnRotate;
             _attack.SuccessedAttack += OnSuccessAttak;
+            _leaveButton.onClick.AddListener(LeaveRoom);
+            
         }
 
 
-        private void OnDisable()
+        public override void OnDisable()
         {
+            base.OnDisable();
             _inputManager.Attacked -= OnAttack;
             _inputManager.Moved -= OnMove;
             _inputManager.Rotated -= OnRotate;
+            _attack.SuccessedAttack -= OnSuccessAttak;
+            _leaveButton.onClick.RemoveAllListeners();
         }
         private void OnValidate()
         {
@@ -43,6 +69,8 @@ namespace Assets._project.Scripts.Player
                 _attack = GetComponentInChildren<AbstractAttack>();
             if (_camera == null)
                 _camera = GetComponentInChildren<Camera>();
+            if(_inputManager == null)
+                _inputManager = GetComponentInChildren<InputManager>();
         }
         private void OnRotate(Vector2 obj)
         {
@@ -84,13 +112,25 @@ namespace Assets._project.Scripts.Player
         private void OnSuccessAttak()
         {
             _score += 10;
+            _scoreText.text = $"Score: {_score}";
             print(_score);
         }
-
+        public override void OnLeftRoom()
+        {
+            base.OnLeftRoom();
+            SceneManager.LoadScene(0);
+        }
         public void Win()
         {
+            _winScoreText.text = $"Your score: {_score}";
+            _winUI.SetActive(true);
+            _gameplayUI.SetActive(false);
             print("Включился экран выигрыша");
         }
 
+        private void LeaveRoom()
+        {
+            PhotonNetwork.LeaveRoom();
+        }
     }
 }

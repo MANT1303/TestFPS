@@ -1,5 +1,6 @@
 ﻿using Assets._project.Scripts.Common;
 using Assets._project.Scripts.Player;
+using Photon.Pun;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,14 +30,19 @@ namespace Assets._project.Scripts.Enemies.Boss
         public override void Takedamage(float damage)
         {
             Health -= damage;
-            _slider.value = Health;
+            photonView.RPC(nameof(HealthChanged), RpcTarget.All, Health);
             if (Health < 0)
             {
-                Dead?.Invoke();
                 _stateMachine.BossDead();
+                Dead?.Invoke();
             }
         }
-
+        [PunRPC]
+        private void HealthChanged(float health)
+        {
+            Health = health;
+            _slider.value = health;
+        }
         private void OnValidate()
         {
             if (_stateMachine == null)

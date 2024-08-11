@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Assets._project.Scripts.Common
 {
-    public class InputManager : MonoBehaviour
+    public class InputManager : MonoBehaviourPunCallbacks
     {
         private Input _input;
 
@@ -18,19 +19,23 @@ namespace Assets._project.Scripts.Common
         }
         private void Start()
         {
-            _input.Player.Attack.performed += (InputAction.CallbackContext context) => Attacked.Invoke();
-            AddEventInput(_input.Player.Move, (InputAction.CallbackContext context) => Moved.Invoke(context.ReadValue<Vector2>()));
-            AddEventInput(_input.Player.Rotate, (InputAction.CallbackContext context) => Rotated.Invoke(context.ReadValue<Vector2>()));
+            if (photonView.IsMine)
+            {
+                _input.Player.Attack.performed += (InputAction.CallbackContext context) => Attacked?.Invoke();
+                AddEventInput(_input.Player.Move, (InputAction.CallbackContext context) => Moved?.Invoke(context.ReadValue<Vector2>()));
+                AddEventInput(_input.Player.Rotate, (InputAction.CallbackContext context) => Rotated?.Invoke(context.ReadValue<Vector2>()));
+            }
         }
 
-        private void OnEnable()
+        public override void OnEnable()
         {
+            base.OnEnable();
             _input.Enable();
         }
 
-        private void OnDisable()
+        public override void OnDisable()
         {
-            
+            base.OnDisable();
             _input?.Disable();
         }
 

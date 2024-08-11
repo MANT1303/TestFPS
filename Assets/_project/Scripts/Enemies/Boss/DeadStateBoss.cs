@@ -10,6 +10,7 @@ namespace Assets._project.Scripts.Enemies.Boss
         private float _timeDead;
         private float _currentTime;
 
+
         public DeadStateBoss (StateMachine stateMachine, Transform bossTransform, float timeDead)
         {
             StateMachine = stateMachine;

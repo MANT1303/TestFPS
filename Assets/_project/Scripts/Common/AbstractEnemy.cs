@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using UnityEngine;
 
 namespace Assets._project.Scripts.Common
 {
-    public abstract class AbstractEnemy : MonoBehaviour
+    public abstract class AbstractEnemy : MonoBehaviourPunCallbacks
     {
         public float Health { get; protected set; }
         public float MaxHealth { get; protected set; }

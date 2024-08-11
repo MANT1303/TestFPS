@@ -1,13 +1,15 @@
 using Assets._project.Scripts.Enemies.Boss;
 using Assets._project.Scripts.Game;
 using Assets._project.Scripts.Player;
+using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
 //TODO: нужно здесь делать проверку на количество игроков и если кто-то отвалится, то обновлять список целей у босса
 //      также этот класс должен решать проблемы с созданием игроков (возможно через другие классы
-public class GameStateMachine : MonoBehaviour
+public class GameStateMachine : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private List<PlayerControl> _players;
     [SerializeField] private Boss _boss;
 
@@ -17,6 +19,10 @@ public class GameStateMachine : MonoBehaviour
 
     private void Start()
     {
+        for (int i = 0; i<PhotonNetwork.CountOfPlayers; i++)
+        {
+            _players.Add(PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)), Quaternion.identity).GetComponentInChildren<PlayerControl>());
+        }
         _fsm = new StateMachine();
 
         _fsm.AddState(new StartState(_fsm, _boss, _players));
@@ -25,12 +31,17 @@ public class GameStateMachine : MonoBehaviour
 
         _fsm.SetState<StartState>();
     }
-
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
         _boss.Dead += BossDead;
     }
 
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        _boss.Dead -= BossDead;
+    }
     private void BossDead()
     {
         _fsm.SetState<WinState>();
