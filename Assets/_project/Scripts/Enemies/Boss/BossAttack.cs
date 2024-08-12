@@ -36,6 +36,7 @@ namespace Assets._project.Scripts.Enemies.Boss
         }
         public void SetTargetAttack(List<PlayerControl> players)
         {
+            print(players.Count);
             _players = players;
             _currentPlayer = _players[Random.Range(0, _players.Count)];
         }

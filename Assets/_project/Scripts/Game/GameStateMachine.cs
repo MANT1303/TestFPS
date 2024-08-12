@@ -10,19 +10,16 @@ using UnityEngine;
 public class GameStateMachine : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject _playerPrefab;
-    [SerializeField] private List<PlayerControl> _players;
     [SerializeField] private Boss _boss;
-
+    private List<PlayerControl> _players = new List<PlayerControl>();
 
 
     private StateMachine _fsm;
 
     private void Start()
     {
-        for (int i = 0; i<PhotonNetwork.CountOfPlayers; i++)
-        {
-            _players.Add(PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)), Quaternion.identity).GetComponentInChildren<PlayerControl>());
-        }
+        _players.Add(PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)), Quaternion.identity).GetComponentInChildren<PlayerControl>());
+
         _fsm = new StateMachine();
 
         _fsm.AddState(new StartState(_fsm, _boss, _players));
@@ -49,5 +46,10 @@ public class GameStateMachine : MonoBehaviourPunCallbacks
     private void Update()
     {
         _fsm.Update();
+    }
+
+    [PunRPC]
+    private void AddPLayer()
+    {
     }
 }

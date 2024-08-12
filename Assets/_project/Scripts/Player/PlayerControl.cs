@@ -113,19 +113,18 @@ namespace Assets._project.Scripts.Player
         {
             _score += 10;
             _scoreText.text = $"Score: {_score}";
-            print(_score);
         }
         public override void OnLeftRoom()
         {
             base.OnLeftRoom();
             SceneManager.LoadScene(0);
+            PhotonNetwork.Disconnect();
         }
         public void Win()
         {
             _winScoreText.text = $"Your score: {_score}";
             _winUI.SetActive(true);
             _gameplayUI.SetActive(false);
-            print("Включился экран выигрыша");
         }
 
         private void LeaveRoom()
