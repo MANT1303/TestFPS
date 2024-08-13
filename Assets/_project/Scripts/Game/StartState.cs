@@ -7,21 +7,22 @@ namespace Assets._project.Scripts.Game
     public class StartState : IState
     {
         private Boss _boss;
-        private List<PlayerControl> _players;
+        private PlayerControl _player;
 
         public StateMachine StateMachine { get; private set; }
 
-        public StartState(StateMachine stateMachine, Boss boss, List<PlayerControl> players)
+        public StartState(StateMachine stateMachine, Boss boss, PlayerControl player)
         {
             StateMachine = stateMachine;
             _boss = boss;
-            _players = players;
+            _player = player;
         }
 
         public void Enter()
         {
-            _boss.SetPlayers( _players );
+            _boss.SetPlayers(  );
             _boss.gameObject.SetActive(true);
+            _boss.photonView.RPC(nameof(_boss.AddPlayer), Photon.Pun.RpcTarget.AllBuffered, _player.photonView.ViewID);
         }
 
         public void Exit()

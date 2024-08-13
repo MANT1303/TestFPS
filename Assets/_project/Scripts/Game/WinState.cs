@@ -7,25 +7,19 @@ namespace Assets._project.Scripts.Game
 {
     public class WinState : IState
     {
-        private List<PlayerControl> _players;
+        private PlayerControl _player;
 
         public StateMachine StateMachine { get; private set; }
-        public WinState(StateMachine stateMachine)
-        {
-        }
 
-        public WinState(StateMachine stateMachine, List<PlayerControl> players) 
+        public WinState(StateMachine stateMachine, PlayerControl player) 
         {
-            _players = players;
             StateMachine = stateMachine;
+            _player = player;
         }
 
         public void Enter()
         {
-            foreach (var player in _players)
-            {
-                player.Win();
-            }
+            _player.Win();
         }
 
         public void Exit()

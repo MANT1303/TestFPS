@@ -11,20 +11,20 @@ public class GameStateMachine : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private Boss _boss;
-    private List<PlayerControl> _players = new List<PlayerControl>();
-
 
     private StateMachine _fsm;
 
+    private void Awake()
+    {
+    }
     private void Start()
     {
-        _players.Add(PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)), Quaternion.identity).GetComponentInChildren<PlayerControl>());
-
+        PlayerControl player = PhotonNetwork.Instantiate(_playerPrefab.name, new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)), Quaternion.identity).GetComponentInChildren<PlayerControl>();
         _fsm = new StateMachine();
 
-        _fsm.AddState(new StartState(_fsm, _boss, _players));
+        _fsm.AddState(new StartState(_fsm, _boss, player));
         _fsm.AddState(new BattleState(_fsm));
-        _fsm.AddState(new WinState(_fsm, _players));
+        _fsm.AddState(new WinState(_fsm,player));
 
         _fsm.SetState<StartState>();
     }
@@ -46,10 +46,5 @@ public class GameStateMachine : MonoBehaviourPunCallbacks
     private void Update()
     {
         _fsm.Update();
-    }
-
-    [PunRPC]
-    private void AddPLayer()
-    {
     }
 }

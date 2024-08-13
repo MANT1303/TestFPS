@@ -10,7 +10,7 @@ namespace Assets._project.Scripts.Enemies.Boss
         [SerializeField] private AbstractAttack _attack;
         [SerializeField] private float _pauseBetweenAttack;
         private float _currentTime;
-        private List<PlayerControl> _players;
+        private List<PlayerControl> _players = new List<PlayerControl>();
         private PlayerControl _currentPlayer;
 
         private void OnValidate()

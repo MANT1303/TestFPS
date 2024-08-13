@@ -13,12 +13,13 @@ namespace Assets._project.Scripts.Enemies.Boss
         [SerializeField] private Slider _slider;
         [SerializeField] private float _maxHealth = 100;
         [SerializeField] private BossStateMachine _stateMachine;
+        private List<PlayerControl> _players = new List<PlayerControl>();
 
 
         public override event Action Dead;
-        public void SetPlayers(List<PlayerControl> controlsPlayers)
+        public void SetPlayers()
         {
-            _stateMachine.ControlPlayers = controlsPlayers;
+            _stateMachine.ControlPlayers = _players;
         }
         private void Start()
         {
@@ -51,6 +52,21 @@ namespace Assets._project.Scripts.Enemies.Boss
             }
             if (_slider == null)
                 _slider = GetComponentInChildren<Slider>();
+        }
+
+        [PunRPC]
+        public void AddPlayer(int playerViewID)
+        {
+            // Находим игрока по ViewID и добавляем его в список
+            PhotonView playerView = PhotonView.Find(playerViewID);
+            if (playerView != null)
+            {
+                PlayerControl playerComponent = playerView.GetComponent<PlayerControl>();
+                if (playerComponent != null)
+                {
+                    _players.Add(playerComponent);
+                }
+            }
         }
     }
 }
